@@ -14,6 +14,7 @@ ALLOWED = frozenset({
     "scripts/observer_io_safety.py",
     "scripts/verify_public_payload.py",
     "tests/test_public_io_safety.py",
+    "tests/test_public_fault_contract.py",
 })
 HELPER_SHA256 = "8684e892fe3d59d9cefdfb29fa8bfba8e2151580484d65b760180eab6bb60f8e"
 SKIP_PARTS = frozenset({".git", "__pycache__", ".pytest_cache"})
