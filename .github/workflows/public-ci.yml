@@ -1,0 +1,47 @@
+name: Public isolated I/O safety CI
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    name: Safe I/O (Ubuntu)
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout isolated public source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify exact public payload and secret patterns
+        run: python -B scripts/verify_public_payload.py
+      - name: Run isolated synthetic tests
+        run: python -B -m unittest discover -s tests -v
+
+  windows:
+    name: Safe I/O (Windows)
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - name: Checkout isolated public source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.11'
+      - name: Verify exact public payload and secret patterns
+        run: python -B scripts/verify_public_payload.py
+      - name: Run isolated synthetic tests
+        run: python -B -m unittest discover -s tests -v
